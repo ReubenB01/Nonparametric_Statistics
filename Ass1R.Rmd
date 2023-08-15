@@ -1,0 +1,42 @@
+---
+title: "STAT313 Assignment1"
+author: "Reuben Brown 57733966"
+date: "2023-03-20"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Problem 4
+
+```{r}
+# a
+x <- ChickWeight$weight
+n <- length(x)
+alpha <- 0.1
+epsilon <- sqrt((1/(2*n)*log(2/alpha)))
+
+est = ecdf(x)
+plot(est, do.points=FALSE, col='red')
+
+curve(pmin(est(x)+epsilon, 1), add=TRUE)
+curve(pmax(est(x)-epsilon, 0), add=TRUE)
+curve(punif(x, min(x), max(x)), add=TRUE)
+```
+B) We can rule out that the data was sampled from a uniform
+distribution as the cdf of the uniform distribution falls
+outside of the 95% confidence bands of our empirical distribution
+function.
+
+```{r}
+# C
+ks.test(x, "pnorm")
+```
+The p-value is smaller than 0.05. This means with 95% certainty we can reject the null hypothesis that the data was sampled from a uniform distribution.
+
+D) I used one-sample ks test so we can directly compare it to a normal distribution rather than using a two-sample test which would compare the data to a randomly generated uniformly distributed sample.
+
+
